@@ -12,7 +12,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
+        // Deletes all accounts older than 15 days that have not yet had their email verified.
         $schedule->command('app:delete-not-verified-accounts')->dailyAt('00:00');
+
+        // Send a remember notification to users that did not log-in on the last 15 days.
+        $schedule->command('app:remember-user-to-login')->weeklyOn(1);
     }
 
     /**
