@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
+use App\Notifications\User\WelcomeUser;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +29,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected string $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
@@ -46,7 +47,7 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(array $data): \Illuminate\Contracts\Validation\Validator
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
@@ -59,14 +60,21 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\Models\Auth\User
+     * @return User
      */
-    protected function create(array $data)
+    protected function create(array $data): User
     {
-        return User::create([
+        /**
+         * @var User $user
+         */
+        $user = User::query()->create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $user->notify(new WelcomeUser($user));
+
+        return $user;
     }
 }

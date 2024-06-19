@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
+use App\Notifications\User\WelcomeUser;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -46,12 +47,17 @@ class GoogleController extends Controller
 
         if (!$user) {
 
+            /**
+             * @var User $user
+             */
             $user = User::query()->create([
                 'name' => $googleUser->getName(),
                 'email' => $googleUser->getEmail(),
                 'password' => Str::password(),
                 'email_verified_at' => now(),
             ]);
+
+            $user->notify(new WelcomeUser($user));
         }
 
         Auth::login($user);
