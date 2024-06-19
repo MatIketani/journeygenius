@@ -81,6 +81,27 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="locale" class="col-md-4 col-form-label text-md-end">{{ __('Locale') }}</label>
+
+                                <div class="col-md-6">
+
+                                    <select id="locale" class="form-select" aria-label="{{ __('Locale') }}" name="locale">
+                                        @foreach ($localeList as $localeId => $localeCode)
+                                            <option value="{{ $localeId }}" @if ($user->locale_id === $localeId) selected @endif>
+                                                {{ trans("locales.$localeCode") }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+
+                                    @error('locale')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">

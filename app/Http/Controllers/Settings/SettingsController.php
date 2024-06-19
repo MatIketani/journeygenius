@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ConfirmSettingsChangesValidator;
 use App\Models\Auth\User;
+use App\Models\MultiLanguage\Locale;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -24,7 +25,8 @@ class SettingsController extends Controller
         $currentUser = auth()->user();
 
         return view('settings.index')->with([
-            'user' => $currentUser
+            'user' => $currentUser,
+            'localeList' => Locale::getLocaleList()
         ]);
     }
 
@@ -50,10 +52,17 @@ class SettingsController extends Controller
             ]);
         }
 
-        $currentUser->update([
-            'name' => $request->get('name'),
-            'password' => Hash::make($requestData['new_password'])
-        ]);
+        $newData = [
+            'name' => $requestData['name'],
+            'locale_id' => $requestData['locale'],
+        ];
+
+        if ($requestData['new_password']) {
+
+            $newData['password'] = Hash::make($requestData['new_password']);
+        }
+
+        $currentUser->update($newData);
 
         return redirect('home');
     }

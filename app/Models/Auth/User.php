@@ -2,9 +2,11 @@
 
 namespace App\Models\Auth;
 
+use App\Models\MultiLanguage\Locale;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -20,6 +22,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string $remember_token
  * @property Carbon $created_at
  * @property Carbon $updated_at
+ *
+ * @property-read Locale $locale
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -34,7 +38,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'email_verified_at'
+        'email_verified_at',
+        'locale_id',
     ];
 
     /**
@@ -67,4 +72,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * @return BelongsTo
+     */
+    public function locale(): BelongsTo
+    {
+        return $this->belongsTo(Locale::class, 'locale_id');
+    }
 }
