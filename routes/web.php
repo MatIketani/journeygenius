@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Settings\SettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+    Route::prefix('/settings')->controller(SettingsController::class)->group(function () {
+
+        Route::get('/', 'index')->name('settings.index');
+
+        Route::post('/confirm-changes', 'confirmChanges')->name('settings.confirm-changes');
+    });
 });
 
 Route::get('/', function () {
