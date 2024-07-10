@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Dto\Auth\UserDTO;
+use App\Dto\Wallet\WalletDTO;
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
 use App\Notifications\User\WelcomeUser;
 use App\Providers\RouteServiceProvider;
+use App\Repositories\Auth\UserRepository;
+use App\Repositories\Wallet\WalletRepository;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Redirector;
@@ -21,6 +25,33 @@ use Symfony\Component\HttpFoundation\RedirectResponse as HttpRedirectResponse;
  */
 class GoogleController extends Controller
 {
+
+    /**
+     * User Repository instance.
+     *
+     * @var UserRepository $userRepository
+     */
+    private UserRepository $userRepository;
+
+    /**
+     * Wallet Repository instance.
+     *
+     * @var WalletRepository $walletRepository
+     */
+    private WalletRepository $walletRepository;
+
+    /**
+     * Constructor method.
+     *
+     * @param UserRepository $userRepository User Repository dependency injection.
+     * @param WalletRepository $walletRepository Wallet Repository dependency injection.
+     */
+    public function __construct(UserRepository $userRepository, WalletRepository $walletRepository)
+    {
+        $this->userRepository = $userRepository;
+
+        $this->walletRepository = $walletRepository;
+    }
 
     /**
      * GET /google/redirect
@@ -47,15 +78,21 @@ class GoogleController extends Controller
 
         if (!$user) {
 
-            /**
-             * @var User $user
-             */
-            $user = User::query()->create([
-                'name' => $googleUser->getName(),
-                'email' => $googleUser->getEmail(),
-                'password' => Str::password(),
-                'email_verified_at' => now(),
-            ]);
+            $userDto = new UserDTO(
+                $googleUser->getName(),
+                $googleUser->getEmail(),
+                Str::password(),
+                now()
+            );
+
+            $user = $this->userRepository->create($userDto);
+
+            $walletDto = new WalletDTO(
+                $user->id,
+                10
+            );
+
+            $this->walletRepository->create($walletDto);
 
             $user->notify(new WelcomeUser($user));
         }

@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Dto\Auth\UserDTO;
+use App\Dto\Wallet\WalletDTO;
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
 use App\Notifications\User\WelcomeUser;
+use App\Repositories\Auth\UserRepository;
+use App\Repositories\Wallet\WalletRepository;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -32,13 +36,34 @@ class RegisterController extends Controller
     protected string $redirectTo = '/home';
 
     /**
+     * User repository instance.
+     *
+     * @var UserRepository $userRepository
+     */
+    protected UserRepository $userRepository;
+
+    /**
+     * Wallet repository instance.
+     *
+     * @var WalletRepository $walletRepository
+     */
+    protected WalletRepository $walletRepository;
+
+    /**
      * Create a new controller instance.
+     *
+     * @param UserRepository $userRepository User Repository dependency injection.
+     * @param WalletRepository $walletRepository Wallet Repository dependency injection.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository, WalletRepository $walletRepository)
     {
         $this->middleware('guest');
+
+        $this->userRepository = $userRepository;
+
+        $this->walletRepository = $walletRepository;
     }
 
     /**
@@ -64,14 +89,20 @@ class RegisterController extends Controller
      */
     protected function create(array $data): User
     {
-        /**
-         * @var User $user
-         */
-        $user = User::query()->create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $userDto = new UserDTO(
+            $data['name'],
+            $data['email'],
+            Hash::make($data['password'])
+        );
+
+        $user = $this->userRepository->create($userDto);
+
+        $walletDto = new WalletDTO(
+            $user->id,
+            10
+        );
+
+        $this->walletRepository->create($walletDto);
 
         $user->notify(new WelcomeUser($user));
 

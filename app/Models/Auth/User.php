@@ -3,10 +3,12 @@
 namespace App\Models\Auth;
 
 use App\Models\MultiLanguage\Locale;
+use App\Models\Wallet\Wallet;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -79,5 +81,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function locale(): BelongsTo
     {
         return $this->belongsTo(Locale::class, 'locale_id');
+    }
+
+    /**
+     * Create the relationship to Wallet.
+     *
+     * @return HasOne
+     */
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class, 'user_id');
     }
 }

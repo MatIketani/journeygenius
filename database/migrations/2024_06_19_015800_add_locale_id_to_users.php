@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
-            $table->integer('locale_id')->nullable()->after('password')
+            $table->foreignId('locale_id')
+                ->nullable()
+                ->after('password')
                 ->default(1);
 
-            $table->foreign('locale_id')->references('id')
+            $table->foreign('locale_id')
+                ->references('id')
                 ->on('locales')
                 ->onDelete('set null');
         });
