@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\Invitation\InvitationController;
 use App\Http\Controllers\Settings\SettingsController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,14 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('/google/redirect', [GoogleController::class, 'redirect'])->name('google.redirect');
+Route::prefix('/google')->controller(GoogleController::class)->group(function () {
 
-Route::get('/google/callback', [GoogleController::class, 'login'])->name('google.callback');
+    Route::get('/redirect', 'redirect')->name('google.redirect');
+
+    Route::get('/callback', 'login')->name('google.callback');
+});
+
+Route::prefix('/invitation')->controller(InvitationController::class)->group(function () {
+
+    Route::get('/register/{inviteCode}', 'registerByInvitation')->name('invitation.register');
+});

@@ -102,6 +102,20 @@
                                 </div>
                             </div>
 
+                            <div class="row mb-3">
+                                <label for="my-invite-code" class="col-md-4 col-form-label text-md-end">{{ __('My Invite Code') }}</label>
+
+                                <div class="col-md-2">
+                                    <input id="my-invite-code" type="text" class="form-control" disabled value="{{ $user->invite_code->code }}">
+                                </div>
+
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="copyInviteLink()">
+                                        {{ __('Copy Invite Link') }}
+                                    </button>
+                                </div>
+                            </div>
+
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
@@ -115,4 +129,17 @@
             </div>
         </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        const inviteLink = '{{ route('invitation.register', ['inviteCode' => encrypt($user->invite_code->code)]) }}';
+
+        /**
+         * Add the invite link to clipboard.
+         */
+        function copyInviteLink()
+        {
+            navigator.clipboard.writeText(inviteLink);
+        }
+    </script>
 @endsection

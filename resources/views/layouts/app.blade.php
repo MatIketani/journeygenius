@@ -87,8 +87,27 @@
         </nav>
 
         <main class="py-4">
+            @if(session('success'))
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="alert alert-success text-center" role="alert" style="width: 65%;">
+                            {!! session('success') !!}
+                        </div>
+                    </div>
+                </div>
+            @elseif(session('error'))
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="alert alert-danger text-center" role="alert" style="width: 65%;">
+                            {!! session('error') !!}
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             @yield('content')
         </main>
     </div>
 </body>
+@yield('js')
 </html>

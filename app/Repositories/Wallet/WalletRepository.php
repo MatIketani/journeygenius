@@ -30,4 +30,18 @@ class WalletRepository
 
         return $wallet;
     }
+
+    /**
+     * Add credits to the provided wallet.
+     *
+     * @param Wallet $wallet
+     * @param int $credits
+     * @return void
+     */
+    public function addCredits(Wallet $wallet, int $credits): void
+    {
+        $wallet->credits += $credits;
+
+        $wallet->save();
+    }
 }

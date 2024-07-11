@@ -17,7 +17,7 @@ class UserDTO
 
     public string $password;
 
-    public Carbon $emailVerifiedAt;
+    public ?Carbon $emailVerifiedAt;
 
     /**
      * Constructor method.

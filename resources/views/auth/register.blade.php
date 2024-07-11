@@ -61,6 +61,20 @@
                             </div>
                         </div>
 
+                        <div class="row mb-3">
+                            <label for="invite-code" class="col-md-4 col-form-label text-md-end">{{ __('Invite Code') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="invite-code" type="text" maxlength="8" class="form-control @error('invite_code') is-invalid @enderror" name="invite_code" @isset($inviteCode) value="{{ $inviteCode }}" readonly @endisset>
+
+                                @error('invite_code')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

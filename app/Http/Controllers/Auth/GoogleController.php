@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Dto\Auth\UserDTO;
+use App\Dto\Invitation\InviteCodeDTO;
 use App\Dto\Wallet\WalletDTO;
 use App\Http\Controllers\Controller;
 use App\Models\Auth\User;
 use App\Notifications\User\WelcomeUser;
 use App\Providers\RouteServiceProvider;
 use App\Repositories\Auth\UserRepository;
+use App\Repositories\Invitation\InviteCodeRepository;
 use App\Repositories\Wallet\WalletRepository;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
@@ -41,16 +43,30 @@ class GoogleController extends Controller
     private WalletRepository $walletRepository;
 
     /**
+     * Invite Code Repository instance.
+     *
+     * @var InviteCodeRepository $inviteCodeRepository
+     */
+    private InviteCodeRepository $inviteCodeRepository;
+
+    /**
      * Constructor method.
      *
      * @param UserRepository $userRepository User Repository dependency injection.
      * @param WalletRepository $walletRepository Wallet Repository dependency injection.
+     * @param InviteCodeRepository $inviteCodeRepository Invite Code Repository dependency injection.
      */
-    public function __construct(UserRepository $userRepository, WalletRepository $walletRepository)
+    public function __construct(
+        UserRepository $userRepository,
+        WalletRepository $walletRepository,
+        InviteCodeRepository $inviteCodeRepository
+    )
     {
         $this->userRepository = $userRepository;
 
         $this->walletRepository = $walletRepository;
+
+        $this->inviteCodeRepository = $inviteCodeRepository;
     }
 
     /**
@@ -93,6 +109,14 @@ class GoogleController extends Controller
             );
 
             $this->walletRepository->create($walletDto);
+
+            $inviteCodeDto = new InviteCodeDTO(
+                $user->id,
+                Str::random(8),
+                15
+            );
+
+            $this->inviteCodeRepository->create($inviteCodeDto);
 
             $user->notify(new WelcomeUser($user));
         }

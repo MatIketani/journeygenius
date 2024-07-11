@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\Invitation\InviteCode;
 use App\Models\MultiLanguage\Locale;
 use App\Models\Wallet\Wallet;
 use Carbon\Carbon;
@@ -26,6 +27,8 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $updated_at
  *
  * @property-read Locale $locale
+ * @property-read Wallet $wallet
+ * @property-read InviteCode $inviteCode
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -91,5 +94,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function wallet(): HasOne
     {
         return $this->hasOne(Wallet::class, 'user_id');
+    }
+
+    /**
+     * Create the relationship to InviteCode.
+     *
+     * @return HasOne
+     */
+    public function invite_code(): HasOne
+    {
+        return $this->hasOne(InviteCode::class, 'user_id');
     }
 }

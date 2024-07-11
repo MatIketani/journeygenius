@@ -5,7 +5,7 @@ namespace App\Dto\Wallet;
 /**
  * Class UserDTO
  *
- * User model Data Transfer Object (DTO)
+ * Wallet model Data Transfer Object (DTO)
  */
 class WalletDTO
 {
