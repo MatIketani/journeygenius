@@ -15,6 +15,7 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @yield('js')
 
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -52,8 +53,18 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item">
+                            <li class="nav-item dropdown">
+                                <a id="travel-plans-dropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                    {{ __('Travel Plans') }}
+                                </a>
 
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="travel-plans-dropdown">
+                                    <a class="dropdown-item" href="{{ route('travel-plans.create') }}">
+                                        {{ __('Create') }}
+                                    </a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
                                 <a class="nav-link">
                                     <i class="bi bi-coin"></i>
                                     <b>{{ __('Credits') }}:</b> {{ Auth::user()->wallet->credits }}
@@ -109,5 +120,4 @@
         </main>
     </div>
 </body>
-@yield('js')
 </html>

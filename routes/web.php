@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Invitation\InvitationController;
 use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\TravelPlans\TravelPlansController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -45,4 +46,11 @@ Route::prefix('/google')->controller(GoogleController::class)->group(function ()
 Route::prefix('/invitation')->controller(InvitationController::class)->group(function () {
 
     Route::get('/register/{inviteCode}', 'registerByInvitation')->name('invitation.register');
+});
+
+Route::prefix('/travel-plans')->controller(TravelPlansController::class)->group(function () {
+
+    Route::get('/create', 'create')->name('travel-plans.create');
+
+    Route::post('/store', 'store')->name('travel-plans.store');
 });
