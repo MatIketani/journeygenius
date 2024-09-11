@@ -5,7 +5,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{ __('Create Travel Plan') }}</div>
+                    <div class="card-header">{{ trans('main.create_travel_plan') }}</div>
 
                     <div class="card-body">
                         <form method="POST" action="{{ route('travel-plans.store') }}">
@@ -13,7 +13,7 @@
 
                             <div class="row mb-3">
                                 <label for="accommodation"
-                                       class="col-md-4 col-form-label text-md-end">{{ __('Accommodation') }} <span
+                                       class="col-md-4 col-form-label text-md-end">{{ trans('main.accommodation') }} <span
                                         class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
@@ -32,7 +32,7 @@
 
                             <div class="row mb-3">
                                 <label for="max-distance"
-                                       class="col-md-4 col-form-label text-md-end">{{ __('Maximum Distance (1-50 Km)') }}
+                                       class="col-md-4 col-form-label text-md-end">{{ trans(maximum_distance) }}
                                     <span class="text-danger"></span></label>
 
                                 <div class="col-md-6">
@@ -48,7 +48,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="interests" class="col-md-4 col-form-label text-md-end">{{ __('Interests') }}
+                                <label for="interests" class="col-md-4 col-form-label text-md-end">{{ trans('main.interests') }}
                                     <span class="text-danger">*</span></label>
 
                                 <div class="col-md-6">
@@ -72,7 +72,7 @@
 
                             <div class="row mb-3">
                                 <label for="spending"
-                                       class="col-md-4 col-form-label text-md-end">{{ __('Spending ($-$$$$$)') }}</label>
+                                       class="col-md-4 col-form-label text-md-end">{{ trans('main.speding') }}</label>
 
                                 <div class="col-md-6">
                                     <div class="col-md-6">
@@ -91,7 +91,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ __('Process Travel Plan') }}
+                                        {{ trans('main.process_travel_plan') }}
                                     </button>
                                 </div>
                             </div>

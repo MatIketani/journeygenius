@@ -27,7 +27,7 @@
                 <a class="navbar-brand" href="{{ url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ trans('main.toggle_navegation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -43,31 +43,31 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" href="{{ route('login') }}">{{ trans('main.login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" href="{{ route('register') }}">{{ trans('main.register') }}</a>
                                 </li>
                             @endif
                         @else
                             <li class="nav-item dropdown">
                                 <a id="travel-plans-dropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ __('Travel Plans') }}
+                                    {{trans('main.travel_plans')}}
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="travel-plans-dropdown">
                                     <a class="dropdown-item" href="{{ route('travel-plans.create') }}">
-                                        {{ __('Create') }}
+                                        {{ trans('main.create') }}
                                     </a>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link">
                                     <i class="bi bi-coin"></i>
-                                    <b>{{ __('Credits') }}:</b> {{ Auth::user()->wallet->credits }}
+                                    <b>{{ trans(main.credits) }}:</b> {{ Auth::user()->wallet->credits }}
                                 </a>
                             </li>
                             <li class="nav-item dropdown">
@@ -77,13 +77,13 @@
 
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('settings.index') }}">
-                                        {{ __('Settings') }}
+                                        {{ trans('main.settings') }}
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ trans('main.logout') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
