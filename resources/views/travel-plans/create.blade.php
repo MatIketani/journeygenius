@@ -20,7 +20,7 @@
                                     <input id="accommodation" type="text"
                                            class="form-control @error('accommodation') is-invalid @enderror" autofocus>
 
-                                    @error('accomodation')
+                                    @error('accommodation')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
