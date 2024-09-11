@@ -17,10 +17,10 @@ class InterestsHelper
             'tourist_attractions' => __('Tourist Attractions'),
             'cultural_events' => __('Cultural Events'),
             'shopping_areas' => __('Shopping Areas'),
-            'historical_sites' => __('Historical Sites'),
+            'history_sites' => __('History Sites'),
             'outdoor_activities' => __('Outdoor Activities'),
             'museums_and_galleries' => __('Museums and Galleries'),
-            'beaches_and_nature' => __('Beaches and Nature'),
+            'nature' => __('Nature'),
             'entertainment_options' => __('Entertainment Options'),
         ];
     }

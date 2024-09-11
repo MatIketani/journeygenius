@@ -105,4 +105,19 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne(InviteCode::class, 'user_id');
     }
+
+    /**
+     * Return the current logged-in user instance.
+     *
+     * @return User
+     */
+    public static function getInstance(): User
+    {
+        /**
+         * @var User $user
+         */
+        $user = auth()->user();
+
+        return $user;
+    }
 }

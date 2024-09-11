@@ -28,6 +28,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::post('/confirm-changes', 'confirmChanges')->name('settings.confirm-changes');
     });
+
+    Route::prefix('/travel-plans')->controller(TravelPlansController::class)->group(function () {
+
+        Route::get('/create', 'create')->name('travel-plans.create');
+
+        Route::post('/store', 'store')->name('travel-plans.store');
+    });
 });
 
 Route::get('/', function () {
@@ -43,14 +50,10 @@ Route::prefix('/google')->controller(GoogleController::class)->group(function ()
     Route::get('/callback', 'login')->name('google.callback');
 });
 
-Route::prefix('/invitation')->controller(InvitationController::class)->group(function () {
+Route::middleware(['guest'])->group(function () {
 
-    Route::get('/register/{inviteCode}', 'registerByInvitation')->name('invitation.register');
-});
+    Route::prefix('/invitation')->controller(InvitationController::class)->group(function () {
 
-Route::prefix('/travel-plans')->controller(TravelPlansController::class)->group(function () {
-
-    Route::get('/create', 'create')->name('travel-plans.create');
-
-    Route::post('/store', 'store')->name('travel-plans.store');
+        Route::get('/register/{inviteCode}', 'registerByInvitation')->name('invitation.register');
+    });
 });

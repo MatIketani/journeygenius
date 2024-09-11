@@ -5,6 +5,8 @@ namespace App\Http\Controllers\TravelPlans;
 use App\Helpers\InterestsHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TravelPlanValidator;
+use App\Jobs\TravelPlans\ProcessTravelPlan;
+use App\Models\Auth\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
@@ -34,7 +36,17 @@ class TravelPlansController extends Controller
      */
     public function store(TravelPlanValidator $request): RedirectResponse
     {
-        // TODO: Jogar a Job do Travel Plan.
+        $requestData = $request->validated();
+
+        $job = new ProcessTravelPlan(
+            $requestData['accommodation'],
+            $requestData['max-distance'],
+            $requestData['interests'],
+            $requestData['spending'],
+            User::getInstance()
+        );
+
+        dispatch($job);
 
         return redirect()->back()->with(
             'success', __('Your Travel Plan is being processed, you will receive an email when it is ready.')

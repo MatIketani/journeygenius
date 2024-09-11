@@ -107,6 +107,11 @@
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initAutocomplete"
         async defer></script>
     <script>
+        /**
+         * Callback function for the Google Maps API place input.
+         *
+         * It its triggered on place_changed event.
+         */
         function onPlaceChanged() {
 
             const place = autoComplete.getPlace();
@@ -118,14 +123,21 @@
 
             const location = place.geometry.location;
 
-            const latLng = location.lat() + ' ' + location.lng();
+            const latitudeLongitude = {
+                "lat": location.lat(),
+                'lng': location.lng(),
+            };
 
-            document.getElementById('accommodation-lat-lng').value = latLng;
+            document.getElementById('accommodation-lat-lng').value = JSON.stringify(latitudeLongitude);
         }
 
         let autoComplete;
 
+        /**
+         * Google Maps API Callback function.
+         */
         function initAutocomplete() {
+
             autoComplete = new google.maps.places.Autocomplete(
                 document.getElementById('accommodation'),
                 {
