@@ -14,4 +14,12 @@ return [
     'rating' => 'Avaliação',
     'reviews' => 'Avaliações',
     'operational' => 'Operacional',
+    'travel_plans' => 'Planos de Viagem',
+    'travel_plans_status' => [
+        1 => 'Em Progresso',
+        2 => 'Processado',
+        3 => 'Falhou'
+    ],
+    'created_at' => 'Data de Criação',
+    'actions' => 'Ações',
 ];

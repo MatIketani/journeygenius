@@ -2,7 +2,9 @@
 
 namespace App\Repositories\TravelPlans;
 
+use App\Models\Auth\User;
 use App\Models\TravelPlans\TravelPlan;
+use Illuminate\Database\Eloquent\Collection;
 
 class TravelPlansRepository
 {
@@ -52,5 +54,16 @@ class TravelPlansRepository
         $travelPlan = TravelPlan::query()->find($id);
 
         return $travelPlan;
+    }
+
+    /**
+     * Return all the travel plans for the specified user.
+     *
+     * @param User $user
+     * @return Collection
+     */
+    public function getAllByUser(User $user): Collection
+    {
+        return TravelPlan::query()->where('user_id', $user->id)->get();
     }
 }

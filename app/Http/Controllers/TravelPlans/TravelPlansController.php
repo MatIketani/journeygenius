@@ -69,6 +69,20 @@ class TravelPlansController extends Controller
     }
 
     /**
+     * GET /travel-plans
+     *
+     * @return Application|Factory|\Illuminate\Foundation\Application|View
+     */
+    public function viewAll(): Factory|\Illuminate\Foundation\Application|View|Application
+    {
+        $currentUser = User::getInstance();
+
+        $travelPlans = $this->travelPlansRepository->getAllByUser($currentUser);
+
+        return view('travel-plans.view', ['travelPlans' => $travelPlans]);
+    }
+
+    /**
      * GET /travel-plans/{id}
      *
      * @param string $id
@@ -88,5 +102,34 @@ class TravelPlansController extends Controller
         return view('travel-plans.show', [
             'travelPlan' => $travelPlan
         ]);
+    }
+
+    /**
+     * GET /travel-plans/{id}/delete
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function delete(string $id): RedirectResponse
+    {
+        $travelPlanId = decrypt($id);
+
+        $travelPlan = $this->travelPlansRepository->getById($travelPlanId);
+
+        if (!$travelPlan) {
+
+            abort(404);
+        }
+
+        if ($travelPlan->user_id != User::getInstance()->id) {
+
+            abort(401);
+        }
+
+        $travelPlan->delete();
+
+        return redirect()->route('travel-plans.view-all')->with(
+            'success', __('Travel Plan deleted successfully.')
+        );
     }
 }

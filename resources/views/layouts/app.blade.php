@@ -64,6 +64,10 @@
                                     <a class="dropdown-item" href="{{ route('travel-plans.create') }}">
                                         {{ __('Create') }}
                                     </a>
+
+                                    <a class="dropdown-item" href="{{ route('travel-plans.view-all') }}">
+                                        {{ __('View') }}
+                                    </a>
                                 </div>
                             </li>
                             <li class="nav-item">

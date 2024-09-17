@@ -36,6 +36,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::post('/store', 'store')->name('travel-plans.store');
 
         Route::get('/{id}', 'show')->name('travel-plans.show');
+
+        Route::get('/', 'viewAll')->name('travel-plans.view-all');
+
+        Route::get('/{id}/delete', 'delete')->name('travel-plans.delete');
     });
 });
 
