@@ -34,6 +34,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/create', 'create')->name('travel-plans.create');
 
         Route::post('/store', 'store')->name('travel-plans.store');
+
+        Route::get('/{id}', 'show')->name('travel-plans.show');
     });
 });
 

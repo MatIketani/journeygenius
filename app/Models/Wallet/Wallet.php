@@ -39,4 +39,17 @@ class Wallet extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    /**
+     * Decrease credits from the wallet.
+     *
+     * @param int $amount
+     * @return void
+     */
+    public function decreaseCredits(int $amount = 1): void
+    {
+        $this->credits -= $amount;
+
+        $this->save();
+    }
 }

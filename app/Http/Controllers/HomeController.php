@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\InterestsHelper;
+use App\Http\Clients\GoogleMapsClient;
+
 class HomeController extends Controller
 {
     /**

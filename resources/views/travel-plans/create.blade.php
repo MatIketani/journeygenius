@@ -31,13 +31,19 @@
                             </div>
 
                             <div class="row mb-3">
+                                <span class="col-md-7 col-form-label text-md-end" id="max-distance-display">
+                                    <strong>10 Km</strong>
+                                </span>
+                            </div>
+
+                            <div class="row mb-3">
                                 <label for="max-distance"
                                        class="col-md-4 col-form-label text-md-end">{{ __('Maximum Distance (1-50 Km)') }}
                                     <span class="text-danger"></span></label>
 
                                 <div class="col-md-6">
                                     <input type="range" class="form-range" id="max-distance" name="max_distance" min="1"
-                                           max="50" value="10">
+                                           max="50" value="10" onchange="updateMaxDistanceDisplay()">
 
                                     @error('max_distance')
                                     <span class="invalid-feedback" role="alert">
@@ -75,17 +81,19 @@
                                        class="col-md-4 col-form-label text-md-end">{{ __('Spending ($-$$$$$)') }}</label>
 
                                 <div class="col-md-6">
-                                    <div class="col-md-6">
                                         <input type="range" class="form-range" id="spending" name="spending" min="1"
-                                               max="5" value="1">
+                                               max="5" value="1" onchange="updateSpendingDisplay()">
 
                                         @error('spending')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                    </div>
                                 </div>
+
+                                <span class="col-md-2">
+                                    <strong id="spending-display">$</strong>
+                                </span>
                             </div>
 
                             <div class="row mb-0">
@@ -147,6 +155,32 @@
             );
 
             autoComplete.addListener('place_changed', onPlaceChanged);
+        }
+
+        /**
+         * Updates the Max Distance display.
+         *
+         * Called by the onchange event on max distance input.
+         */
+        function updateMaxDistanceDisplay () {
+
+            const maxDistance = document.querySelector('#max-distance').value;
+
+            const maxDistanceDisplay = document.querySelector('#max-distance-display');
+
+            maxDistanceDisplay.innerHTML = `<strong>${maxDistance} Km</strong>`
+        }
+
+        /**
+         * Updates the Spending display.
+         */
+        function updateSpendingDisplay() {
+
+            const spending = document.querySelector('#spending').value;
+
+            const spendingDisplay = document.querySelector('#spending-display');
+
+            spendingDisplay.innerHTML = `$`.repeat(spending);
         }
     </script>
 @endsection

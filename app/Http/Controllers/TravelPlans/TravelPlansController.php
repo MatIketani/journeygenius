@@ -7,11 +7,24 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TravelPlanValidator;
 use App\Jobs\TravelPlans\ProcessTravelPlan;
 use App\Models\Auth\User;
+use App\Repositories\TravelPlans\TravelPlansRepository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class TravelPlansController extends Controller
 {
+    private TravelPlansRepository $travelPlansRepository;
+
+    /**
+     * Travel Plans Controller constructor.
+     */
+    public function __construct(TravelPlansRepository $travelPlansRepository)
+    {
+        $this->travelPlansRepository = $travelPlansRepository;
+    }
+
     /**
      * GET /travel-plans/create
      *
@@ -38,18 +51,42 @@ class TravelPlansController extends Controller
     {
         $requestData = $request->validated();
 
-        $job = new ProcessTravelPlan(
+        $travelPlan = $this->travelPlansRepository->create(
+            User::getInstance()->id,
             $requestData['accommodation'],
-            $requestData['max-distance'],
+            $requestData['max_distance'],
             $requestData['interests'],
-            $requestData['spending'],
-            User::getInstance()
+            $requestData['spending']
         );
+
+        $job = new ProcessTravelPlan($travelPlan);
 
         dispatch($job);
 
         return redirect()->back()->with(
             'success', __('Your Travel Plan is being processed, you will receive an email when it is ready.')
         );
+    }
+
+    /**
+     * GET /travel-plans/{id}
+     *
+     * @param string $id
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function show(string $id): Factory|View|\Illuminate\Foundation\Application|Application
+    {
+        $travelPlanId = decrypt($id);
+
+        $travelPlan = $this->travelPlansRepository->getById($travelPlanId);
+
+        if (!$travelPlan) {
+
+            abort(404);
+        }
+
+        return view('travel-plans.show', [
+            'travelPlan' => $travelPlan
+        ]);
     }
 }

@@ -26,7 +26,7 @@ class TravelPlanValidator extends FormRequest
 
         $this->merge([
             'accommodation' => json_decode($accommodation, true),
-            'max-distance' => intval($this->input('max-distance', 1)),
+            'max_distance' => intval($this->input('max_distance', 1)),
             'spending' => intval($this->input('spending', 1))
         ]);
     }
@@ -40,7 +40,7 @@ class TravelPlanValidator extends FormRequest
     {
         return [
             'accommodation' => ['required', 'array'],
-            'max-distance' => ['required', 'integer', 'min:1', 'max:50'],
+            'max_distance' => ['required', 'integer', 'min:1', 'max:50'],
             'interests' => ['required', 'array'],
             'interests.*' => ['required', 'string'],
             'spending' => ['required', 'numeric', 'min:1', 'max:5'],

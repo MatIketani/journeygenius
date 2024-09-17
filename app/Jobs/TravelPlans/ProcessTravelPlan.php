@@ -4,7 +4,9 @@ namespace App\Jobs\TravelPlans;
 
 use App\Helpers\InterestsHelper;
 use App\Http\Clients\GoogleMapsClient;
-use App\Models\Auth\User;
+use App\Http\Clients\LLM\CohereTravelPlanClient;
+use App\Models\TravelPlans\TravelPlan;
+use App\Notifications\TravelPlans\TravelPlanProcessed;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -16,36 +18,14 @@ class ProcessTravelPlan implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private array $accommodationCoordinates;
-
-    private int $maxDistance;
-
-    private array $interests;
-
-    private int $spending;
-
-    private User $user;
+    private TravelPlan $travelPlan;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(
-        array $accommodationCoordinates,
-        int   $maxDistance,
-        array $interests,
-        int   $spending,
-        User  $user,
-    )
+    public function __construct(TravelPlan $travelPlan)
     {
-        $this->accommodationCoordinates = $accommodationCoordinates;
-
-        $this->maxDistance = $maxDistance; // TODO: Validar o por que do maxDistance estar vindo 1 da requisição.
-
-        $this->interests = $interests;
-
-        $this->spending = $spending;
-
-        $this->user = $user;
+        $this->travelPlan = $travelPlan;
     }
 
     /**
@@ -55,9 +35,35 @@ class ProcessTravelPlan implements ShouldQueue
     {
         $consolidatedResults = $this->getConsolidatedResults();
 
-        /**
-         * TODO: Integração com a Cohere
-         */
+        $cohereTravelPlanClient = new CohereTravelPlanClient();
+
+        $cohereTravelPlanClient->setChatHistory([
+            [
+                'role' => 'user',
+                'message' => 'Here is the list of valid establishments: ' . json_encode($consolidatedResults)
+            ]
+        ]);
+
+        $prompt = '
+            Generate an travel plan with the provided data following the defined structure.
+            Storytelling should vary based on the type of establishment.
+            For example, describe the vibrant atmosphere for nightclubs, local flavors for restaurants,
+            or the cultural significance for museums.
+            You should return the content using the following locale: ' . $this->travelPlan->user->locale->code . '
+        ';
+
+        $cohereTravelPlanClient->setPrompt($prompt);
+
+        $result = $cohereTravelPlanClient->generateTravelPlanHtml();
+
+        if (!$result) {
+
+            $this->handleFailure();
+
+            return;
+        }
+
+        $this->handleSuccess($result);
     }
 
     /**
@@ -71,21 +77,69 @@ class ProcessTravelPlan implements ShouldQueue
 
         $interestsList = InterestsHelper::interestsList();
 
-        foreach ($this->interests as $interestKey) {
+        $accommodationCoordinates = $this->travelPlan->accommodation_coordinates;
 
-            $interest = $interestsList[$interestKey];
+        foreach ($this->travelPlan->interests as $interestKey) {
 
-            $consolidatedResults[$interestKey] = json_encode(GoogleMapsClient::getNearby(
-                $this->accommodationCoordinates['lat'] . ' ' . $this->accommodationCoordinates['lng'],
-                $this->maxDistance,
+            $responseData = GoogleMapsClient::getNearby(
+                $accommodationCoordinates['lat'] . ' ' . $accommodationCoordinates['lng'],
+                $this->travelPlan->max_distance,
                 [
-                    'keyword' => $interest,
-                    'language' => $this->user->locale->code,
+                    'keyword' => $interestKey,
+                    'language' => $this->travelPlan->user->locale->code,
                     'rankby' => 'prominence'
                 ]
-            ));
+            );
+
+            $responseCollection = collect($responseData)->map(function ($establishment) use ($interestsList, $interestKey) {
+
+                return [
+                    'establishment_name' => $establishment['name'],
+                    'establishment_type' => $interestsList[$interestKey],
+                    'address' => $establishment['vicinity'],
+                    'rating' => $establishment['rating'] ?? 'N/A',
+                    'user_ratings_total' => $establishment['user_ratings_total'] ?? 'N/A',
+                ];
+            })
+                ->take(1)
+                ->toArray();
+
+            $consolidatedResults[$interestKey] = $responseCollection;
         }
 
         return $consolidatedResults;
+    }
+
+    /**
+     * Handle the failure of the Travel Plan processing.
+     *
+     * @return void
+     */
+    private function handleFailure(): void
+    {
+        $this->travelPlan->status = 3;
+
+        $this->travelPlan->save();
+    }
+
+    /**
+     * Handle the success of the Travel Plan processing.
+     *
+     * Sends an notification to the user.
+     *
+     * @param string $result
+     * @return void
+     */
+    private function handleSuccess(string $result): void
+    {
+        $this->travelPlan->status = 2;
+
+        $this->travelPlan->result = $result;
+
+        $this->travelPlan->save();
+
+        $this->travelPlan->user->notify(new TravelPlanProcessed($this->travelPlan));
+
+        $this->travelPlan->user->wallet->decreaseCredits();
     }
 }
