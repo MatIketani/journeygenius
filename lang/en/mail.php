@@ -18,5 +18,13 @@ return [
         'line1' => 'Please notice that your travel plan was successfully processed and is ready to be viewed.',
         'line2' => 'You can check your travel plan by clicking in the button below.',
         'button' => 'Go to Travel Plan',
-    ]
+    ],
+    'password_changed_by_interface' => [
+        'subject' => 'Journey Genius - Your password has been changed.',
+        'line1' => 'Please note that your password has been changed through the system interface.',
+        'line2' => 'Action details:<br><br><b>IP Address:</b> :ip_address<br><b>Time:</b> :time',
+        'line3' => 'If you recognize this action, you can ignore this email.',
+        'line4' => 'Otherwise, reset your password by clicking the button below.',
+        'button' => 'Reset Password',
+    ],
 ];
