@@ -22,4 +22,11 @@ return [
     ],
     'created_at' => 'Data de Criação',
     'actions' => 'Ações',
+    'users' => 'Usuários',
+    'show' => 'Ver',
+    'na' => 'N/A',
+    'name' => 'Nome',
+    'email' => 'Email',
+    'locale' => 'Linguagem',
+    'last_login_at' => 'Último Login Em',
 ];

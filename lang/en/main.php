@@ -22,4 +22,11 @@ return [
     ],
     'created_at' => 'Created At',
     'actions' => 'Actions',
+    'users' => 'Users',
+    'show' => 'Show',
+    'na' => 'N/A',
+    'name' => 'Name',
+    'email' => 'Email',
+    'locale' => 'Locale',
+    'last_login_at' => 'Last Login At',
 ];

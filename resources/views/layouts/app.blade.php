@@ -76,6 +76,22 @@
                                     <b>{{ __('Credits') }}:</b> {{ Auth::user()->wallet->credits }}
                                 </a>
                             </li>
+                            @canany(['see-users-management'])
+                                <li class="nav-item dropdown">
+                                    <a id="users-management-dropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        <i class="bi bi-person-fill"></i>
+                                        {{ trans('main.users') }}
+                                    </a>
+
+                                    @can('see-users-management')
+                                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="users-management-dropdown">
+                                            <a class="dropdown-item" href="{{ route('users_management.index') }}">
+                                                {{ trans('main.show') }}
+                                            </a>
+                                        </div>
+                                    @endcan
+                                </li>
+                            @endcanany
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }}

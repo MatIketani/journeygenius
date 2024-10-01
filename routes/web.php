@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Invitation\InvitationController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\TravelPlans\TravelPlansController;
+use App\Http\Controllers\UsersManagement\UsersManagementController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/{id}/delete', 'delete')->name('travel-plans.delete');
     });
+
+    Route::prefix('/users-management')->controller(UsersManagementController::class)
+        ->group(function () {
+
+            Route::get('/', 'index')->name('users_management.index')
+                ->middleware('can:see-users-management');
+
+            Route::get('/delete/{id}', 'delete')->name('users_management.delete')
+                ->middleware('can:delete-users');
+        });
 });
 
 Route::get('/', function () {
