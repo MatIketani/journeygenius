@@ -44,5 +44,26 @@ return [
     'maximum_distance'=>'Distância Máxima (1-50 Km)',
     'interests'=>'Interesses',
     'spending'=>'Gastos ($-$$$$$)',
-    'process_travel_plan'=>'Processar Plano de Viagem'
+    'process_travel_plan'=>'Processar Plano de Viagem',
+    'type' => 'Tipo',
+    'address' => 'Endereço',
+    'status' => 'Status',
+    'rating' => 'Avaliação',
+    'reviews' => 'Avaliações',
+    'operational' => 'Operacional',
+    'travel_plans' => 'Planos de Viagem',
+    'travel_plans_status' => [
+        1 => 'Em Progresso',
+        2 => 'Processado',
+        3 => 'Falhou'
+    ],
+    'created_at' => 'Data de Criação',
+    'actions' => 'Ações',
+    'users' => 'Usuários',
+    'show' => 'Ver',
+    'na' => 'N/A',
+    'name' => 'Nome',
+    'email' => 'Email',
+    'locale' => 'Linguagem',
+    'last_login_at' => 'Último Login Em',
 ];

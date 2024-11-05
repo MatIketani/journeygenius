@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wallets', function (Blueprint $table) {
+        Schema::create('travel_plans', function (Blueprint $table) {
 
             $table->id();
 
@@ -22,8 +22,19 @@ return new class extends Migration
                 ->on('users')
                 ->onDelete('cascade');
 
-            $table->unsignedInteger('credits')
-                ->default(0);
+            $table->unsignedInteger('status')
+                ->default(1);
+
+            $table->json('accommodation_coordinates');
+
+            $table->integer('max_distance');
+
+            $table->json('interests');
+
+            $table->integer('spending');
+
+            $table->text('result')
+                ->nullable();
 
             $table->timestamps();
         });
@@ -34,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wallets');
+        Schema::dropIfExists('travel_plans');
     }
 };

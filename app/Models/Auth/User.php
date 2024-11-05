@@ -18,8 +18,9 @@ use Laravel\Sanctum\HasApiTokens;
  * Class User
  *
  * @property int $id
- * @property string $name,
- * @property string $email,
+ * @property boolean $super_user
+ * @property string $name
+ * @property string $email
  * @property Carbon $email_verified_at
  * @property string $password
  * @property string $remember_token
@@ -64,6 +65,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected array $dates = [
         'email_verified_at',
+        'last_login_at',
         'created_at',
         'updated_at'
     ];
@@ -74,6 +76,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<string, string>
      */
     protected $casts = [
+        'super_user' => 'boolean',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
@@ -104,5 +107,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function invite_code(): HasOne
     {
         return $this->hasOne(InviteCode::class, 'user_id');
+    }
+
+    /**
+     * Return the current logged-in user instance.
+     *
+     * @return User
+     */
+    public static function getInstance(): User
+    {
+        /**
+         * @var User $user
+         */
+        $user = auth()->user();
+
+        return $user;
     }
 }

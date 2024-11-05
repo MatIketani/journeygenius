@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TravelPlanValidator extends FormRequest
@@ -15,18 +16,34 @@ class TravelPlanValidator extends FormRequest
     }
 
     /**
+     * This method runs before the validation.
+     *
+     * @return void
+     */
+    public function prepareForValidation(): void
+    {
+        $accommodation = $this->input('accommodation', '{}');
+
+        $this->merge([
+            'accommodation' => json_decode($accommodation, true),
+            'max_distance' => intval($this->input('max_distance', 1)),
+            'spending' => intval($this->input('spending', 1))
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
-            'accommodation' => ['required', 'string'],
-            'max-distance' => ['required', 'integer', 'min:1', 'max:50'],
+            'accommodation' => ['required', 'array'],
+            'max_distance' => ['required', 'integer', 'min:1', 'max:50'],
             'interests' => ['required', 'array'],
             'interests.*' => ['required', 'string'],
-            'spending' => ['required', 'numeric', 'min:1'],
+            'spending' => ['required', 'numeric', 'min:1', 'max:5'],
         ];
     }
 }

@@ -39,5 +39,9 @@ return [
 
     'maps' => [
         'key' => env('GOOGLE_MAPS_API_KEY')
-    ]
+    ],
+
+    'cohere' => [
+        'key' => env('COHERE_API_KEY')
+    ],
 ];

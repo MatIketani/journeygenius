@@ -5,11 +5,26 @@ namespace App\Http\Controllers\TravelPlans;
 use App\Helpers\InterestsHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TravelPlanValidator;
+use App\Jobs\TravelPlans\ProcessTravelPlan;
+use App\Models\Auth\User;
+use App\Repositories\TravelPlans\TravelPlansRepository;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
 class TravelPlansController extends Controller
 {
+    private TravelPlansRepository $travelPlansRepository;
+
+    /**
+     * Travel Plans Controller constructor.
+     */
+    public function __construct(TravelPlansRepository $travelPlansRepository)
+    {
+        $this->travelPlansRepository = $travelPlansRepository;
+    }
+
     /**
      * GET /travel-plans/create
      *
@@ -34,10 +49,87 @@ class TravelPlansController extends Controller
      */
     public function store(TravelPlanValidator $request): RedirectResponse
     {
-        // TODO: Jogar a Job do Travel Plan.
+        $requestData = $request->validated();
+
+        $travelPlan = $this->travelPlansRepository->create(
+            User::getInstance()->id,
+            $requestData['accommodation'],
+            $requestData['max_distance'],
+            $requestData['interests'],
+            $requestData['spending']
+        );
+
+        $job = new ProcessTravelPlan($travelPlan);
+
+        dispatch($job);
 
         return redirect()->back()->with(
             'success', __('Your Travel Plan is being processed, you will receive an email when it is ready.')
+        );
+    }
+
+    /**
+     * GET /travel-plans
+     *
+     * @return Application|Factory|\Illuminate\Foundation\Application|View
+     */
+    public function viewAll(): Factory|\Illuminate\Foundation\Application|View|Application
+    {
+        $currentUser = User::getInstance();
+
+        $travelPlans = $this->travelPlansRepository->getAllByUser($currentUser);
+
+        return view('travel-plans.view', ['travelPlans' => $travelPlans]);
+    }
+
+    /**
+     * GET /travel-plans/{id}
+     *
+     * @param string $id
+     * @return Application|Factory|View|\Illuminate\Foundation\Application
+     */
+    public function show(string $id): Factory|View|\Illuminate\Foundation\Application|Application
+    {
+        $travelPlanId = decrypt($id);
+
+        $travelPlan = $this->travelPlansRepository->getById($travelPlanId);
+
+        if (!$travelPlan) {
+
+            abort(404);
+        }
+
+        return view('travel-plans.show', [
+            'travelPlan' => $travelPlan
+        ]);
+    }
+
+    /**
+     * GET /travel-plans/{id}/delete
+     *
+     * @param string $id
+     * @return RedirectResponse
+     */
+    public function delete(string $id): RedirectResponse
+    {
+        $travelPlanId = decrypt($id);
+
+        $travelPlan = $this->travelPlansRepository->getById($travelPlanId);
+
+        if (!$travelPlan) {
+
+            abort(404);
+        }
+
+        if ($travelPlan->user_id != User::getInstance()->id) {
+
+            abort(401);
+        }
+
+        $travelPlan->delete();
+
+        return redirect()->route('travel-plans.view-all')->with(
+            'success', __('Travel Plan deleted successfully.')
         );
     }
 }
