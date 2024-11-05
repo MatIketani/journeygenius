@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\GoogleController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Invitation\InvitationController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\TravelPlans\TravelPlansController;
@@ -54,9 +55,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
 });
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Auth::routes(['verify' => true]);
 
