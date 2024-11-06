@@ -52,7 +52,7 @@ class InvitationController extends Controller
         if (!$inviteCode) {
 
             return redirect()->route('home')->with([
-                'error' => __('The invitation code is invalid.')
+                'error' => trans('messages.invalid_invitation_code'),
             ]);
         }
 

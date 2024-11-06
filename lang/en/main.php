@@ -6,6 +6,7 @@ return [
         'passwords' => [
             'confirm_password' => 'Confirm Password',
             'please_confirm_your_password_before_continuing' => 'Please confirm your password before continuing.',
+            'reset_password' => 'Reset Password',
         ],
     ],
     'login' => 'Login',
@@ -63,4 +64,16 @@ return [
     'na' => 'N/A',
     'email' => 'Email',
     'last_login_at' => 'Last Login At',
+    'interests_list' => [
+        'night_club' => 'Nightlife Experiences',
+        'restaurant' => 'Local Restaurants',
+        'tourist_attraction' => 'Tourist Attractions',
+        'event' => 'Cultural Events',
+        'shopping_mall' => 'Shopping Areas',
+        'park' => 'Outdoor Activities',
+        'museum' => 'Museums and Galleries',
+        'natural_feature' => 'Nature',
+        'movie_theater' => 'Entertainment Options',
+    ],
+    'view' => 'View',
 ];

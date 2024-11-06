@@ -64,7 +64,7 @@ class TravelPlansController extends Controller
         dispatch($job);
 
         return redirect()->back()->with(
-            'success', __('Your Travel Plan is being processed, you will receive an email when it is ready.')
+            'success', trans('messages.processing_travel_plan')
         );
     }
 
@@ -129,7 +129,7 @@ class TravelPlansController extends Controller
         $travelPlan->delete();
 
         return redirect()->route('travel-plans.view-all')->with(
-            'success', __('Travel Plan deleted successfully.')
+            'success', trans('messages.travel_plan_successfully_deleted'),
         );
     }
 }

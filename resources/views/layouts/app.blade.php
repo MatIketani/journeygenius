@@ -66,14 +66,14 @@
                                     </a>
 
                                     <a class="dropdown-item" href="{{ route('travel-plans.view-all') }}">
-                                        {{ __('View') }}
+                                        {{ trans('main.view') }}
                                     </a>
                                 </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link">
                                     <i class="bi bi-coin"></i>
-                                    <b>{{ trans(main.credits) }}:</b> {{ Auth::user()->wallet->credits }}
+                                    <b>{{ trans('main.credits') }}:</b> {{ Auth::user()->wallet->credits }}
                                 </a>
                             </li>
                             @canany(['see-users-management'])

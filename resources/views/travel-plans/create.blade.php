@@ -38,7 +38,7 @@
 
                             <div class="row mb-3">
                                 <label for="max-distance"
-                                       class="col-md-4 col-form-label text-md-end">{{ trans(maximum_distance) }}
+                                       class="col-md-4 col-form-label text-md-end">{{ trans('main.maximum_distance') }}
                                     <span class="text-danger"></span></label>
 
                                 <div class="col-md-6">

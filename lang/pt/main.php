@@ -6,6 +6,7 @@ return [
         'passwords' => [
             'confirm_password' => 'Confirmar Senha',
             'please_confirm_your_password_before_continuing' => 'Por favor, confirme sua senha antes de continuar.',
+            'reset_password' => 'Redefinir Senha',
         ],
     ],
     'login' => 'Entrar',
@@ -63,4 +64,16 @@ return [
     'na' => 'N/A',
     'email' => 'Email',
     'last_login_at' => 'Último Login Em',
+    'interests_list' => [
+        'night_club' => 'Experiências Noturnas',
+        'restaurant' => 'Restaurantes Locais',
+        'tourist_attraction' => 'Atrações Turísticas',
+        'event' => 'Eventos Culturais',
+        'shopping_mall' => 'Áreas de Compras',
+        'park' => 'Atividades ao Ar Livre',
+        'museum' => 'Museus e Galerias',
+        'natural_feature' => 'Natureza',
+        'movie_theater' => 'Opções de Entretenimento',
+    ],
+    'view' => 'Ver',
 ];

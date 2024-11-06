@@ -26,7 +26,7 @@
                             </div>
 
                             <div class="row mb-3">
-                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ trans(main.email_address) }}</label>
+                                <label for="email" class="col-md-4 col-form-label text-md-end">{{ trans('main.email_address') }}</label>
 
                                 <div class="col-md-6">
                                     <input id="email" disabled type="email" class="form-control" value="{{ $user->email }}" required autocomplete="email">
