@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ trans('confirm_password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ trans('main.confirm_password') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="invite-code" class="col-md-4 col-form-label text-md-end">{{ trans('invite_code') }}</label>
+                            <label for="invite-code" class="col-md-4 col-form-label text-md-end">{{ trans('main.invite_code') }}</label>
 
                             <div class="col-md-6">
                                 <input id="invite-code" type="text" maxlength="8" class="form-control @error('invite_code') is-invalid @enderror" name="invite_code" @isset($inviteCode) value="{{ $inviteCode }}" readonly @endisset>

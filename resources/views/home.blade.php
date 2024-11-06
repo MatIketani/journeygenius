@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ trans('main.dashboard') }}</div>
+                <div class="card-header">{{ config('app.name', 'Laravel') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -14,7 +14,11 @@
                         </div>
                     @endif
 
-                    {{ trans('main.you_r_logged') }}
+                    @auth
+                        {{ trans('messages.welcome_to_journey_genius_auth') }}
+                    @else
+                        {{ trans('messages.welcome_to_journey_genius_guest') }}
+                    @endif
                 </div>
             </div>
         </div>
