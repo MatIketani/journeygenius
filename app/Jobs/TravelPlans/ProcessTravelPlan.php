@@ -87,7 +87,8 @@ class ProcessTravelPlan implements ShouldQueue
                 [
                     'keyword' => $interestKey,
                     'language' => $this->travelPlan->user->locale->code,
-                    'rankby' => 'prominence'
+                    'rankby' => 'prominence',
+                    'maxprice' => $this->travelPlan->spending
                 ]
             );
 

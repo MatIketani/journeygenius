@@ -78,11 +78,11 @@
 
                             <div class="row mb-3">
                                 <label for="spending"
-                                       class="col-md-4 col-form-label text-md-end">{{ trans('main.speding') }}</label>
+                                       class="col-md-4 col-form-label text-md-end">{{ trans('main.spending') }}</label>
 
                                 <div class="col-md-6">
                                         <input type="range" class="form-range" id="spending" name="spending" min="1"
-                                               max="5" value="1" onchange="updateSpendingDisplay()">
+                                               max="4" value="1" onchange="updateSpendingDisplay()">
 
                                         @error('spending')
                                         <span class="invalid-feedback" role="alert">
@@ -113,7 +113,7 @@
 @section('js')
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ env('GOOGLE_MAPS_API_KEY') }}&libraries=places&callback=initAutocomplete"
-        async defer></script>
+        defer></script>
     <script>
         /**
          * Callback function for the Google Maps API place input.

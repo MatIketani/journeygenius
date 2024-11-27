@@ -21,7 +21,7 @@ class GoogleMapsClient
     {
         return Http::get(self::BASE_URL, [
             'location' => $location,
-            'radius' => $radius,
+            'radius' => $radius * 1000,
             ...$optionalParameters,
             'key' => config('services.maps.key')
         ])
