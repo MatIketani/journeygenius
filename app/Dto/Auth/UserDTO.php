@@ -19,18 +19,23 @@ class UserDTO
 
     public ?Carbon $emailVerifiedAt;
 
+    public bool $googleAccount;
+
     /**
      * Constructor method.
      *
      * @param string $name
      * @param string $email
      * @param string $password
+     * @param Carbon|null $emailVerifiedAt
+     * @param bool $googleAccount
      */
     public function __construct(
         string $name,
         string $email,
         string $password,
-        ?Carbon $emailVerifiedAt = null
+        ?Carbon $emailVerifiedAt = null,
+        bool $googleAccount = false
     )
     {
         $this->name = $name;
@@ -40,5 +45,7 @@ class UserDTO
         $this->password = $password;
 
         $this->emailVerifiedAt = $emailVerifiedAt;
+
+        $this->googleAccount = $googleAccount;
     }
 }

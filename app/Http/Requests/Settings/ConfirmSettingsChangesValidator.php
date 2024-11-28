@@ -24,7 +24,7 @@ class ConfirmSettingsChangesValidator extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'password' => 'required|string',
+            'password' => 'sometimes|string',
             'new_password' => 'nullable|string|min:8|confirmed',
             'new_password_confirmation' => 'required_if:new_password,not_null',
             'locale' => 'integer|exists:locales,id',

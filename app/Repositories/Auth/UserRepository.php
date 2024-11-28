@@ -27,7 +27,8 @@ class UserRepository
             'name' => $userDto->name,
             'email' => $userDto->email,
             'password' => $userDto->password,
-            'email_verified_at' => $userDto->emailVerifiedAt
+            'email_verified_at' => $userDto->emailVerifiedAt,
+            'google_account' => $userDto->googleAccount,
         ]);
 
         return $user;

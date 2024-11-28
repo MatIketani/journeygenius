@@ -24,6 +24,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property Carbon $email_verified_at
  * @property string $password
  * @property string $remember_token
+ * @property bool   $google_account
  * @property Carbon $created_at
  * @property Carbon $updated_at
  *
@@ -46,6 +47,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'email_verified_at',
         'locale_id',
+        'google_account'
     ];
 
     /**
@@ -77,6 +79,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $casts = [
         'super_user' => 'boolean',
+        'google_account' => 'boolean',
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];

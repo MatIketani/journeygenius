@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TravelPlanValidator;
 use App\Jobs\TravelPlans\ProcessTravelPlan;
 use App\Models\Auth\User;
+use App\Models\TravelPlans\TravelPlan;
 use App\Repositories\TravelPlans\TravelPlansRepository;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -49,6 +50,13 @@ class TravelPlansController extends Controller
      */
     public function store(TravelPlanValidator $request): RedirectResponse
     {
+        $currentUser = User::getInstance();
+
+        if ($currentUser->wallet->credits < TravelPlan::TRAVEL_PLAN_CREDITS_COST) {
+
+            return redirect()->back()->with('error', trans('messages.not_enough_credits'));
+        }
+
         $requestData = $request->validated();
 
         $travelPlan = $this->travelPlansRepository->create(

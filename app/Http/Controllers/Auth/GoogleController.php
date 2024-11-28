@@ -98,7 +98,8 @@ class GoogleController extends Controller
                 $googleUser->getName(),
                 $googleUser->getEmail(),
                 Str::password(),
-                now()
+                now(),
+                true
             );
 
             $user = $this->userRepository->create($userDto);

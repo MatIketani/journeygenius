@@ -44,7 +44,7 @@ return [
     'accommodation' => 'Acomodações',
     'maximum_distance' => 'Distância Máxima (1-50 Km)',
     'interests' => 'Interesses',
-    'spending' => 'Gastos ($-$$$$$)',
+    'spending' => 'Gastos ($-$$$$)',
     'process_travel_plan' => 'Processar Plano de Viagem',
     'type' => 'Tipo',
     'address' => 'Endereço',
@@ -76,4 +76,5 @@ return [
         'movie_theater' => 'Opções de Entretenimento',
     ],
     'view' => 'Ver',
+    'number_of_items' => 'Número de Itens',
 ];

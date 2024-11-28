@@ -76,7 +76,7 @@ class CohereTravelPlanClient
                 </div>
 
                 You **SHOULD NOT** return another HTML template, you should only return the concat the establishment
-                into an string, do not add html or body tags, for example.
+                into a string, do not add html or body tags, for example.
 
                 5. **Data Handling**:
 

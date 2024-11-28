@@ -46,7 +46,7 @@ class SettingsController extends Controller
          */
         $currentUser = auth()->user();
 
-        if (!Hash::check($requestData['password'], $currentUser->password)) {
+        if (isset($requestData['password']) && !Hash::check($requestData['password'], $currentUser->password)) {
 
             throw ValidationException::withMessages([
                 'password' => trans('validation.incorrect_password')
@@ -58,7 +58,7 @@ class SettingsController extends Controller
             'locale_id' => $requestData['locale'],
         ];
 
-        if ($requestData['new_password']) {
+        if (isset($requestData['new_password']) && $requestData['new_password']) {
 
             $newData['password'] = Hash::make($requestData['new_password']);
 

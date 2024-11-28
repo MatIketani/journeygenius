@@ -44,7 +44,7 @@ return [
     'accommodation' => 'Accommodation',
     'maximum_distance' => 'Maximum Distance (1-50 Km)',
     'interests' => 'Interests',
-    'spending' => 'Spending ($-$$$$$)',
+    'spending' => 'Spending ($-$$$$)',
     'process_travel_plan' => 'Process Travel Plan',
     'type' => 'Type',
     'address' => 'Address',
@@ -76,4 +76,5 @@ return [
         'movie_theater' => 'Entertainment Options',
     ],
     'view' => 'View',
+    'number_of_items' => 'Number of Items',
 ];

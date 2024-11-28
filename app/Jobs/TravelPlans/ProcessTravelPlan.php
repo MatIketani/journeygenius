@@ -31,7 +31,7 @@ class ProcessTravelPlan implements ShouldQueue
     /**
      * Execute the job.
      */
-    #[NoReturn] public function handle(): void
+    public function handle(): void
     {
         $consolidatedResults = $this->getConsolidatedResults();
 
@@ -88,7 +88,6 @@ class ProcessTravelPlan implements ShouldQueue
                     'keyword' => $interestKey,
                     'language' => $this->travelPlan->user->locale->code,
                     'rankby' => 'prominence',
-                    'maxprice' => $this->travelPlan->spending
                 ]
             );
 
@@ -141,6 +140,6 @@ class ProcessTravelPlan implements ShouldQueue
 
         $this->travelPlan->user->notify(new TravelPlanProcessed($this->travelPlan));
 
-        $this->travelPlan->user->wallet->decreaseCredits();
+        $this->travelPlan->user->wallet->decreaseCredits(5);
     }
 }

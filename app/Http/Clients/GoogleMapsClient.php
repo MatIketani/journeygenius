@@ -15,9 +15,9 @@ class GoogleMapsClient
      * @param int $radius Radius in meters.
      * @param array $optionalParameters Other possible parameters, such as keyword, language, max price, min price, etc
      *
-     * @return array
+     * @return array|null
      */
-    public static function getNearby(string $location, int $radius, array $optionalParameters = [])
+    public static function getNearby(string $location, int $radius, array $optionalParameters = []): ?array
     {
         return Http::get(self::BASE_URL, [
             'location' => $location,

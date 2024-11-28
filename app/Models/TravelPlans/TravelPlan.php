@@ -26,6 +26,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  */
 class TravelPlan extends Model
 {
+    const TRAVEL_PLAN_CREDITS_COST = 5;
+
     use HasFactory;
 
     /**
@@ -50,7 +52,7 @@ class TravelPlan extends Model
     ];
 
     /**
-     * Create an relationship instance between Travel Plan.
+     * Create a relationship instance between Travel Plan.
      *
      * @return BelongsTo
      */
